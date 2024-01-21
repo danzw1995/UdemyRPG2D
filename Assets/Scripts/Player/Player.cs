@@ -80,9 +80,8 @@ public class Player : Entity
       return;
     }
 
-    dashUsageTimer -= Time.deltaTime;
 
-    if (Input.GetKeyDown(KeyCode.LeftShift) && dashUsageTimer < 0)
+    if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dashSkill.CanUseSkill())
     {
       dashDirection = Input.GetAxisRaw("Horizontal");
 
@@ -90,8 +89,6 @@ public class Player : Entity
       {
         dashDirection = facingDirection;
       }
-
-      dashUsageTimer = dashCoolDown;
 
       stateMachine.ChangeState(dashState);
     }
