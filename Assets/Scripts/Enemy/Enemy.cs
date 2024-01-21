@@ -1,0 +1,83 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemy : Entity
+{
+  [Header("Stunned info")]
+  public float stunDuration;
+  public Vector2 stunDirection;
+  protected bool canBeStunned;
+  [SerializeField] protected GameObject counterImage;
+
+  [Header("Move info")]
+  public float moveSpeed = 6f;
+
+  public int moveDirection = 1;
+  public float idleTime = 2f;
+
+
+  [Header("Attack info")]
+  public float attackDistance = 1.5f;
+
+  public float playerCheckDistance = 50f;
+
+  public float attackCooldown = 1f;
+
+  public float battleTime = 4f;
+
+  [HideInInspector] public float lastAttackTime;
+
+  public LayerMask whatIsPlayer;
+
+  public EnemyStateMachine stateMachine { get; private set; }
+  protected override void Awake()
+  {
+    base.Awake();
+
+    stateMachine = new EnemyStateMachine();
+  }
+
+  protected override void Start()
+  {
+    base.Start();
+  }
+
+  protected override void Update()
+  {
+    base.Update();
+    stateMachine.currentState.Update();
+  }
+
+  public RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDirection, playerCheckDistance, whatIsPlayer);
+
+  protected override void OnDrawGizmos()
+  {
+    base.OnDrawGizmos();
+
+    Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + attackDistance * facingDirection, wallCheck.position.y));
+  }
+
+  public virtual void OpenCounterAttackWindow()
+  {
+    canBeStunned = true;
+    counterImage.SetActive(true);
+  }
+
+  public virtual void CloseCounterAttackWindow()
+  {
+    canBeStunned = false;
+    counterImage.SetActive(false);
+  }
+
+  public virtual bool CanBeStunned()
+  {
+    if (canBeStunned)
+    {
+      CloseCounterAttackWindow();
+      return true;
+    }
+
+    return false;
+  }
+}
