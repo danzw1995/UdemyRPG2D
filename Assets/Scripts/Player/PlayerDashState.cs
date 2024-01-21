@@ -12,6 +12,8 @@ public class PlayerDashState : PlayerState
   {
     base.Enter();
 
+    player.skill.clone.CreateClone(player.transform.position);
+
   }
 
   public override void Update()

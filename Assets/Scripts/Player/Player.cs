@@ -40,6 +40,8 @@ public class Player : Entity
   public PlayerCounterAttackState counterAttackState { get; private set; }
   #endregion
 
+  public SkillManager skill;
+
   protected override void Awake()
   {
     base.Awake();
@@ -54,6 +56,7 @@ public class Player : Entity
     attackState = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
     counterAttackState = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
 
+    skill = SkillManager.instance;
   }
 
   protected override void Start()
@@ -81,7 +84,7 @@ public class Player : Entity
     }
 
 
-    if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dashSkill.CanUseSkill())
+    if (Input.GetKeyDown(KeyCode.LeftShift) && skill.dash.CanUseSkill())
     {
       dashDirection = Input.GetAxisRaw("Horizontal");
 
