@@ -16,6 +16,8 @@ public class Enemy : Entity
   public int moveDirection = 1;
   public float idleTime = 2f;
 
+  private float defaultSpeed;
+
 
   [Header("Attack info")]
   public float attackDistance = 1.5f;
@@ -36,6 +38,7 @@ public class Enemy : Entity
     base.Awake();
 
     stateMachine = new EnemyStateMachine();
+    defaultSpeed = moveSpeed;
   }
 
   protected override void Start()
@@ -56,6 +59,27 @@ public class Enemy : Entity
     base.OnDrawGizmos();
 
     Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + attackDistance * facingDirection, wallCheck.position.y));
+  }
+
+  public virtual void FreezeTime(bool timeFrozen)
+  {
+    if (timeFrozen)
+    {
+      moveSpeed = 0;
+      anim.speed = 0;
+    }
+    else
+    {
+      moveSpeed = defaultSpeed;
+      anim.speed = 1;
+    }
+  }
+
+  public virtual IEnumerator FreezeTimeFor(float seconds)
+  {
+    FreezeTime(true);
+    yield return new WaitForSeconds(seconds);
+    FreezeTime(false);
   }
 
   public virtual void OpenCounterAttackWindow()

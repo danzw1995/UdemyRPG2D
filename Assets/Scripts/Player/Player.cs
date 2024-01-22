@@ -15,10 +15,11 @@ public class Player : Entity
   public float moveSpeed = 10f;
   public float jumpForce = 12f;
 
+  public float returnImpact = 5f;
+
   [Header("Dash info")]
 
   [SerializeField] private float dashCoolDown = 0.5f;
-  private float dashUsageTimer = 0;
   public float dashSpeed = 20f;
   public float dashDuration = 0.3f;
 
@@ -38,9 +39,13 @@ public class Player : Entity
   public PlayerWallJumpState wallJumpState { get; private set; }
   public PlayerPrimaryAttackState attackState { get; private set; }
   public PlayerCounterAttackState counterAttackState { get; private set; }
+  public PlayerAimSwordState aimSwordState { get; private set; }
+  public PlayerCatchSwordState catchSwordState { get; private set; }
   #endregion
 
   public SkillManager skill;
+
+  public GameObject sword;
 
   protected override void Awake()
   {
@@ -55,6 +60,9 @@ public class Player : Entity
     wallJumpState = new PlayerWallJumpState(this, stateMachine, "Jump");
     attackState = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
     counterAttackState = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
+
+    aimSwordState = new PlayerAimSwordState(this, stateMachine, "AimSword");
+    catchSwordState = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
 
     skill = SkillManager.instance;
   }
@@ -104,6 +112,18 @@ public class Player : Entity
     yield return new WaitForSeconds(seconds);
 
     isBusy = false;
+  }
+
+  public void AssignSword(GameObject newSword)
+  {
+    sword = newSword;
+  }
+
+  public void CatchSword()
+  {
+    stateMachine.ChangeState(catchSwordState);
+    Destroy(sword.gameObject);
+    sword = null;
   }
 
 }
