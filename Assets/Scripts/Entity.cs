@@ -26,6 +26,8 @@ public class Entity : MonoBehaviour
   public Rigidbody2D rb { get; private set; }
   public EntityFX fx { get; private set; }
 
+  public SpriteRenderer sr { get; private set; }
+
   #endregion
 
   public int facingDirection { get; set; } = 1;
@@ -34,6 +36,7 @@ public class Entity : MonoBehaviour
   protected virtual void Awake()
   {
     anim = GetComponentInChildren<Animator>();
+    sr = GetComponentInChildren<SpriteRenderer>();
     rb = GetComponent<Rigidbody2D>();
     fx = GetComponent<EntityFX>();
   }

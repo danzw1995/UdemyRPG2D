@@ -41,6 +41,7 @@ public class Player : Entity
   public PlayerCounterAttackState counterAttackState { get; private set; }
   public PlayerAimSwordState aimSwordState { get; private set; }
   public PlayerCatchSwordState catchSwordState { get; private set; }
+  public PlayerBlackholeState blackholeState { get; private set; }
   #endregion
 
   public SkillManager skill;
@@ -63,6 +64,7 @@ public class Player : Entity
 
     aimSwordState = new PlayerAimSwordState(this, stateMachine, "AimSword");
     catchSwordState = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
+    blackholeState = new PlayerBlackholeState(this, stateMachine, "Jump");
 
     skill = SkillManager.instance;
   }
@@ -124,6 +126,23 @@ public class Player : Entity
     stateMachine.ChangeState(catchSwordState);
     Destroy(sword.gameObject);
     sword = null;
+  }
+
+  public void ExitBlackholeAbility()
+  {
+    stateMachine.ChangeState(airState);
+  }
+
+  public void MakeTransparent(bool transparent)
+  {
+    if (transparent)
+    {
+      sr.color = Color.clear;
+    }
+    else
+    {
+      sr.color = Color.white;
+    }
   }
 
 }

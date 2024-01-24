@@ -12,7 +12,7 @@ public class PlayerDashState : PlayerState
   {
     base.Enter();
 
-    player.skill.clone.CreateClone(player.transform.position);
+    player.skill.clone.CreateClone(player.transform.position, Vector2.zero);
 
   }
 

@@ -15,10 +15,10 @@ public class CloneSkill : Skill
     base.Update();
   }
 
-  public void CreateClone(Vector3 position)
+  public void CreateClone(Vector3 position, Vector3 offset)
   {
     CloneSkillController cloneSkillController = Instantiate(clonePrefab);
 
-    cloneSkillController.SetupClone(position, cloneDuration, cloneLosingSpeed, canAttack);
+    cloneSkillController.SetupClone(position, cloneDuration, cloneLosingSpeed, canAttack, offset);
   }
 }

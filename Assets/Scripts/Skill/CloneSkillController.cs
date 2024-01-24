@@ -18,9 +18,9 @@ public class CloneSkillController : MonoBehaviour
     sr = GetComponent<SpriteRenderer>();
     anim = GetComponent<Animator>();
   }
-  public void SetupClone(Vector3 position, float duration, float loosingSpeed, bool canAttack)
+  public void SetupClone(Vector3 position, float duration, float loosingSpeed, bool canAttack, Vector3 offset)
   {
-    transform.position = position;
+    transform.position = position + offset;
     cloneTimer = duration;
     this.loosingSpeed = loosingSpeed;
 
