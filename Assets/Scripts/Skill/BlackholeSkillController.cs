@@ -91,7 +91,17 @@ public class BlackholeSkillController : MonoBehaviour
 
       int xOffset = Random.Range(0, 100) > 50 ? 2 : -2;
 
-      SkillManager.instance.clone.CreateClone(targets[randomIndex].position, new Vector3(xOffset, 0));
+      if (SkillManager.instance.clone.canCrystalInsteadClone)
+      {
+        SkillManager.instance.crystal.CreateCrystal();
+        SkillManager.instance.crystal.CurrentCrystalChooseRandom();
+      }
+      else
+      {
+        SkillManager.instance.clone.CreateClone(targets[randomIndex].position, new Vector3(xOffset, 0));
+
+      }
+
 
       amountOfAttacks--;
       if (amountOfAttacks <= 0)

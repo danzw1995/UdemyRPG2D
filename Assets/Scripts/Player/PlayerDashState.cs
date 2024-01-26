@@ -12,7 +12,7 @@ public class PlayerDashState : PlayerState
   {
     base.Enter();
 
-    player.skill.clone.CreateClone(player.transform.position, Vector2.zero);
+    player.skill.clone.CreateCloneOnEnter(player.transform.position, Vector2.zero);
 
   }
 
@@ -37,6 +37,7 @@ public class PlayerDashState : PlayerState
   public override void Exit()
   {
     base.Exit();
+    player.skill.clone.CreateCloneOnExit(player.transform.position, Vector2.zero);
 
     player.SetVelocity(0, rb.velocity.y);
   }

@@ -11,6 +11,10 @@ public class CloneSkillController : MonoBehaviour
   private float cloneTimer;
   private float loosingSpeed;
 
+  private bool canCloneDuplicate;
+  private int chanceDuplicate;
+  private int facingDirection = 1;
+
   private Transform closestEnemy;
 
   private void Awake()
@@ -18,11 +22,14 @@ public class CloneSkillController : MonoBehaviour
     sr = GetComponent<SpriteRenderer>();
     anim = GetComponent<Animator>();
   }
-  public void SetupClone(Vector3 position, float duration, float loosingSpeed, bool canAttack, Vector3 offset)
+  public void SetupClone(Vector3 position, float duration, float loosingSpeed, bool canAttack, Vector3 offset, Transform closestEnemy, bool canCloneDuplicate, int chanceDuplicate)
   {
     transform.position = position + offset;
     cloneTimer = duration;
     this.loosingSpeed = loosingSpeed;
+    this.closestEnemy = closestEnemy;
+    this.canCloneDuplicate = canCloneDuplicate;
+    this.chanceDuplicate = chanceDuplicate;
 
     if (canAttack)
     {
@@ -61,33 +68,26 @@ public class CloneSkillController : MonoBehaviour
       if (enemy != null)
       {
         enemy.Damage();
+        if (canCloneDuplicate)
+        {
+          if (Random.Range(0, 100) < chanceDuplicate)
+          {
+            SkillManager.instance.clone.CreateClone(hit.transform.position, new Vector3(0.5f * facingDirection, 0));
+          }
+        }
       }
     }
   }
 
   private void FaceClosestTarget()
   {
-    Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 25);
-    float closestDistance = Mathf.Infinity;
 
-    foreach (Collider2D hit in hits)
-    {
-      Enemy enemy = hit.GetComponent<Enemy>();
-      if (enemy != null)
-      {
-        float distanceToEnemy = Vector2.Distance(transform.position, hit.transform.position);
-        if (distanceToEnemy < closestDistance)
-        {
-          closestDistance = distanceToEnemy;
-          closestEnemy = hit.transform;
-        }
-      }
-    }
 
     if (closestEnemy != null)
     {
       if (closestEnemy.position.x < transform.position.x)
       {
+        facingDirection = -1;
         transform.Rotate(0, 180, 0);
       }
     }

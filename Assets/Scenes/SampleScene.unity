@@ -1564,6 +1564,7 @@ GameObject:
   - component: {fileID: 193666335}
   - component: {fileID: 193666336}
   - component: {fileID: 193666337}
+  - component: {fileID: 193666338}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -1627,6 +1628,12 @@ MonoBehaviour:
   cloneDuration: 1.5
   cloneLosingSpeed: 20
   canAttack: 1
+  canCreateOnEnter: 1
+  canCreateOnExit: 1
+  canCreateOnCounterAttack: 1
+  canCloneDuplicate: 1
+  chanceDuplicate: 30
+  canCrystalInsteadClone: 0
 --- !u!114 &193666336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1680,6 +1687,32 @@ MonoBehaviour:
   amountOfAttacks: 5
   cloneAttackCooldown: 0.3
   blackholeDuration: 3
+--- !u!114 &193666338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193666331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858cf29e14a33ac4d871cf0c42af6436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  cryStalPrefab: {fileID: 4748057690504703919, guid: e980fba477f2f504fa9fe3ba41f99585, type: 3}
+  crystalDuration: 1.5
+  canExplode: 1
+  growSpeed: 5
+  growScale: {x: 3, y: 3}
+  canMoveToEnemy: 1
+  moveSpeed: 10
+  canUseMultipleStacks: 0
+  amountOfStacks: 3
+  multipleStackCooldown: 4
+  useTimeWindow: 2
+  crystalLeft: []
+  canCreateCloneInsteadCrystal: 0
 --- !u!1 &214314625
 GameObject:
   m_ObjectHideFlags: 0
