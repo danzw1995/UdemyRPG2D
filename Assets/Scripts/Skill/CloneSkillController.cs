@@ -67,7 +67,9 @@ public class CloneSkillController : MonoBehaviour
       Enemy enemy = hit.GetComponent<Enemy>();
       if (enemy != null)
       {
-        enemy.Damage();
+        EnemyCharacterStats enemyCharacterStats = enemy.GetComponent<EnemyCharacterStats>();
+        PlayerManager.instance.player.characterStats.DoDamage(enemyCharacterStats);
+
         if (canCloneDuplicate)
         {
           if (Random.Range(0, 100) < chanceDuplicate)

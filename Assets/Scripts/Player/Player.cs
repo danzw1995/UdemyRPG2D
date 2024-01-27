@@ -42,11 +42,16 @@ public class Player : Entity
   public PlayerAimSwordState aimSwordState { get; private set; }
   public PlayerCatchSwordState catchSwordState { get; private set; }
   public PlayerBlackholeState blackholeState { get; private set; }
+  public PlayerDeadState deadState { get; private set; }
   #endregion
 
   public SkillManager skill;
 
   public GameObject sword;
+
+  private float defaultMoveSpeed;
+  private float defaultDashSpeed;
+  private float defaultJumpForce;
 
   protected override void Awake()
   {
@@ -65,6 +70,7 @@ public class Player : Entity
     aimSwordState = new PlayerAimSwordState(this, stateMachine, "AimSword");
     catchSwordState = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
     blackholeState = new PlayerBlackholeState(this, stateMachine, "Jump");
+    deadState = new PlayerDeadState(this, stateMachine, "Die");
 
     skill = SkillManager.instance;
   }
@@ -74,6 +80,10 @@ public class Player : Entity
 
     base.Start();
     stateMachine.Initialize(idleState);
+
+    defaultDashSpeed = dashSpeed;
+    defaultJumpForce = jumpForce;
+    defaultMoveSpeed = moveSpeed;
 
   }
 
@@ -148,6 +158,23 @@ public class Player : Entity
     {
       sr.color = Color.white;
     }
+  }
+
+  public override void SlowEntityBy(float slowPercentage, float slowDuration)
+  {
+    moveSpeed = moveSpeed * (1 - slowPercentage);
+    dashSpeed = dashSpeed * (1 - slowPercentage);
+    jumpForce = jumpForce * (1 - slowPercentage);
+    anim.speed = anim.speed * (1 - slowPercentage);
+
+  }
+
+  protected override void ReturnDefaultSpeed()
+  {
+    anim.speed = 1;
+    moveSpeed = defaultMoveSpeed;
+    dashSpeed = defaultDashSpeed;
+    jumpForce = defaultJumpForce;
   }
 
 }

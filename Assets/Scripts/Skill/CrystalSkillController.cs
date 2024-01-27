@@ -99,7 +99,9 @@ public class CrystalSkillController : MonoBehaviour
       Enemy enemy = hit.GetComponent<Enemy>();
       if (enemy != null)
       {
-        enemy.Damage();
+        EnemyCharacterStats enemyCharacterStats = enemy.GetComponent<EnemyCharacterStats>();
+        PlayerManager.instance.player.characterStats.DoDamage(enemyCharacterStats);
+
       }
     }
   }

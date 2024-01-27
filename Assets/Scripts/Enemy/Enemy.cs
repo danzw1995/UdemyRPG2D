@@ -33,6 +33,10 @@ public class Enemy : Entity
   public LayerMask whatIsPlayer;
 
   public EnemyStateMachine stateMachine { get; private set; }
+
+  public string lastAnimBoolName;
+
+  private float defaultMoveSpeed;
   protected override void Awake()
   {
     base.Awake();
@@ -44,6 +48,7 @@ public class Enemy : Entity
   protected override void Start()
   {
     base.Start();
+    defaultMoveSpeed = moveSpeed;
   }
 
   protected override void Update()
@@ -103,5 +108,26 @@ public class Enemy : Entity
     }
 
     return false;
+  }
+
+  public void AssignLastAnimBoolName(string animBoolName)
+  {
+    lastAnimBoolName = animBoolName;
+  }
+
+  public virtual void Die()
+  {
+
+  }
+
+  public override void SlowEntityBy(float slowPercentage, float slowDuration)
+  {
+    moveSpeed = moveSpeed * (1 - slowPercentage);
+    anim.speed = anim.speed * (1 - slowPercentage);
+  }
+
+  protected override void ReturnDefaultSpeed()
+  {
+    anim.speed = 1;
   }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,10 +29,16 @@ public class Entity : MonoBehaviour
 
   public SpriteRenderer sr { get; private set; }
 
+  public CapsuleCollider2D cd { get; private set; }
+  public CharacterStats characterStats { get; private set; }
+
+
   #endregion
 
   public int facingDirection { get; set; } = 1;
   protected bool facingRight = true;
+
+  public Action OnFlipped;
 
   protected virtual void Awake()
   {
@@ -39,6 +46,8 @@ public class Entity : MonoBehaviour
     sr = GetComponentInChildren<SpriteRenderer>();
     rb = GetComponent<Rigidbody2D>();
     fx = GetComponent<EntityFX>();
+    cd = GetComponent<CapsuleCollider2D>();
+    characterStats = GetComponent<CharacterStats>();
   }
 
   protected virtual void Start()
@@ -47,6 +56,16 @@ public class Entity : MonoBehaviour
   }
 
   protected virtual void Update() { }
+
+  public virtual void SlowEntityBy(float slowPercentage, float slowDuration)
+  {
+
+  }
+
+  protected virtual void ReturnDefaultSpeed()
+  {
+    anim.speed = 1;
+  }
 
 
   public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
@@ -101,6 +120,12 @@ public class Entity : MonoBehaviour
     facingRight = !facingRight;
 
     transform.Rotate(0, 180, 0);
+
+    if (OnFlipped != null)
+    {
+      OnFlipped();
+    }
+
   }
 
   protected virtual void FlipController(float x)
