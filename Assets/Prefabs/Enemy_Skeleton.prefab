@@ -99,7 +99,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1376685709
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: -10
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0.8773585, g: 0.16140087, b: 0.16140087, a: 1}
@@ -183,7 +183,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1376685709
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -3847943250117979209, guid: cc71415bc56e07742a0bede3d4be6d2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -404,6 +404,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 256
+  lastAnimBoolName: 
 --- !u!114 &3937277892458468980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +419,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitMaterial: {fileID: 2100000, guid: 50a770dcb5b7ef744a71e49a3b9037b5, type: 2}
   flashDuration: 0.15
+  chillColors:
+  - {r: 0.23589355, g: 0.77793926, b: 0.8773585, a: 1}
+  - {r: 0.34451762, g: 0.83261406, b: 0.9245283, a: 1}
+  igniteColors:
+  - {r: 0.9245283, g: 0.22241008, b: 0.22241008, a: 1}
+  - {r: 0.9245283, g: 0.46662515, b: 0.46662515, a: 1}
+  shockColors:
+  - {r: 0.8962264, g: 0.74918354, b: 0.15641688, a: 1}
+  - {r: 0.8396226, g: 0.7674574, b: 0.37624598, a: 1}
 --- !u!114 &1853822368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,10 +443,52 @@ MonoBehaviour:
   strength:
     baseValue: 0
     modifies: []
-  maxHealth:
-    baseValue: 300
+  agility:
+    baseValue: 0
+    modifies: []
+  intelligence:
+    baseValue: 0
+    modifies: []
+  vitality:
+    baseValue: 0
     modifies: []
   damage:
     baseValue: 5
     modifies: []
+  critChance:
+    baseValue: 0
+    modifies: []
+  critPower:
+    baseValue: 0
+    modifies: []
+  armor:
+    baseValue: 0
+    modifies: []
+  evasion:
+    baseValue: 0
+    modifies: []
+  magicResistance:
+    baseValue: 0
+    modifies: []
+  maxHealth:
+    baseValue: 300
+    modifies: []
+  fireDamage:
+    baseValue: 0
+    modifies: []
+  iceDamage:
+    baseValue: 0
+    modifies: []
+  lightingDamage:
+    baseValue: 0
+    modifies: []
   currentHealth: 0
+  isIgnited: 0
+  isChilled: 0
+  isShocked: 0
+  ailmentsDuration: 4
+  shockStrikePrefab: {fileID: 0}
+  shockMoveSpeed: 10
+  shockDamage: 10
+  level: 1
+  percantageModifier: 0.4

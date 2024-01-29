@@ -33,6 +33,10 @@ public class CrystalSkillController : MonoBehaviour
 
     if (canMove)
     {
+      if (closestEnemy == null)
+      {
+        return;
+      }
       transform.position = Vector2.MoveTowards(transform.position, closestEnemy.position, moveSpeed * Time.deltaTime);
       if (Vector2.Distance(transform.position, closestEnemy.position) < 1f)
       {
@@ -100,7 +104,13 @@ public class CrystalSkillController : MonoBehaviour
       if (enemy != null)
       {
         EnemyCharacterStats enemyCharacterStats = enemy.GetComponent<EnemyCharacterStats>();
-        PlayerManager.instance.player.characterStats.DoDamage(enemyCharacterStats);
+        PlayerManager.instance.player.characterStats.DoMagicalDamage(enemyCharacterStats);
+
+        EquipmentItemData equipmentItem = Inventory.instance.GetEquipment(EquipmentType.Amulet);
+        if (equipmentItem != null)
+        {
+          equipmentItem.ExecuteEffect(enemy.transform);
+        }
 
       }
     }

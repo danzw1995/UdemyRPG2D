@@ -9,6 +9,8 @@ public class SkeletonBattleState : EnemyState
   private EnemySkeleton enemy;
 
   private Transform player;
+  private PlayerCharacterStats playerCharacterStats;
+
 
   private int moveDirection;
   public SkeletonBattleState(Enemy enemyBase, EnemyStateMachine enemyStateMachine, string animBoolName, EnemySkeleton enemy) : base(enemyBase, enemyStateMachine, animBoolName)
@@ -20,11 +22,17 @@ public class SkeletonBattleState : EnemyState
   {
     base.Enter();
     player = PlayerManager.instance.player.transform;
+    playerCharacterStats = player.GetComponent<PlayerCharacterStats>();
   }
 
   public override void Update()
   {
     base.Update();
+
+    if (playerCharacterStats.isDead)
+    {
+      enemyStateMachine.ChangeState(enemy.idleState);
+    }
 
     if (enemy.IsPlayerDetected())
     {

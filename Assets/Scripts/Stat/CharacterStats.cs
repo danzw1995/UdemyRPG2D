@@ -49,7 +49,7 @@ public class CharacterStats : MonoBehaviour
   private float igniteDamageTimer;
   private int igniteDamage;
 
-  private bool isDead;
+  public bool isDead { get; private set; }
 
   public System.Action OnHealthChange;
 
@@ -112,7 +112,7 @@ public class CharacterStats : MonoBehaviour
     DoMagicalDamage(target);
   }
 
-  private void DoMagicalDamage(CharacterStats target)
+  public void DoMagicalDamage(CharacterStats target)
   {
     float _fireDamage = fireDamage.GetValue();
     float _iceDamage = iceDamage.GetValue();
@@ -187,14 +187,14 @@ public class CharacterStats : MonoBehaviour
     {
       isIgnited = _ignite;
       ignitedTimer = ailmentsDuration;
-      // entityFX.IgniteColorFor(ailmentsDuration);
+      entityFX.IgniteColorFor(ailmentsDuration);
     }
 
     if (_chill && canApplyChill)
     {
       isChilled = _chill;
       chilledTimer = ailmentsDuration;
-      // entityFX.ChillColorFor(ailmentsDuration);
+      entityFX.ChillColorFor(ailmentsDuration);
       float slowPercentage = 0.2f;
       entityFX.GetComponent<Entity>().SlowEntityBy(slowPercentage, ailmentsDuration);
     }
@@ -262,7 +262,7 @@ public class CharacterStats : MonoBehaviour
     shockedTimer = ailmentsDuration;
     isShocked = shock;
 
-    // entityFX.ShockColorFor(ailmentsDuration);
+    entityFX.ShockColorFor(ailmentsDuration);
   }
 
   private float CheckTargetResistance(CharacterStats target, float totalMagicalDamage)
@@ -338,6 +338,19 @@ public class CharacterStats : MonoBehaviour
   public float GetMaxHealthValue()
   {
     return maxHealth.GetValue() + vitality.GetValue() * 5;
+  }
+
+  public void IncreaseHealthBy(float health)
+  {
+    currentHealth += health;
+    if (currentHealth > GetMaxHealthValue())
+    {
+      currentHealth = GetMaxHealthValue();
+    }
+    if (OnHealthChange != null)
+    {
+      OnHealthChange();
+    }
   }
 
 }

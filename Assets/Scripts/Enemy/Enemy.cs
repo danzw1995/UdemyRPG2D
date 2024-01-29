@@ -124,6 +124,8 @@ public class Enemy : Entity
   {
     moveSpeed = moveSpeed * (1 - slowPercentage);
     anim.speed = anim.speed * (1 - slowPercentage);
+    Invoke("ReturnDefaultSpeed", slowDuration);
+
   }
 
   protected override void ReturnDefaultSpeed()

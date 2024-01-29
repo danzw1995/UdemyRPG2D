@@ -27,13 +27,13 @@ public class Stat
     baseValue = value;
   }
 
-  public void AddModify(float modify)
+  public void AddModifier(float modifier)
   {
-    modifies.Add(modify);
+    modifies.Add(modifier);
   }
 
-  public void RemoveModify(int position)
+  public void RemoveModifier(float modifier)
   {
-    modifies.RemoveAt(position);
+    modifies.Remove(modifier);
   }
 }

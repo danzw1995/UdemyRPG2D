@@ -53,6 +53,8 @@ public class Player : Entity
   private float defaultDashSpeed;
   private float defaultJumpForce;
 
+  private PlayerCharacterStats playerCharacterStats;
+
   protected override void Awake()
   {
     base.Awake();
@@ -73,6 +75,7 @@ public class Player : Entity
     deadState = new PlayerDeadState(this, stateMachine, "Die");
 
     skill = SkillManager.instance;
+    playerCharacterStats = GetComponent<PlayerCharacterStats>();
   }
 
   protected override void Start()
@@ -102,6 +105,11 @@ public class Player : Entity
 
   private void CheckDashInputs()
   {
+
+    if (playerCharacterStats.isDead)
+    {
+      return;
+    }
 
     if (IsWallDetected())
     {
@@ -166,6 +174,8 @@ public class Player : Entity
     dashSpeed = dashSpeed * (1 - slowPercentage);
     jumpForce = jumpForce * (1 - slowPercentage);
     anim.speed = anim.speed * (1 - slowPercentage);
+
+    Invoke("ReturnDefaultSpeed", slowDuration);
 
   }
 

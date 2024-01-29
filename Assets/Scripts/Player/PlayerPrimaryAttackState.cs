@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerPrimaryAttackState : PlayerState
 {
 
-  private int comboCounter = 0;
+  public int comboCounter = 0;
   private float lastTimeAttacked;
   private float comboWindow = 2;
   public PlayerPrimaryAttackState(Player player, PlayerStateMachine playerStateMachine, string animBoolName) : base(player, playerStateMachine, animBoolName)
