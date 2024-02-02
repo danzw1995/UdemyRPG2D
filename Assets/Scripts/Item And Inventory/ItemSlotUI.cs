@@ -5,18 +5,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlotUI : MonoBehaviour, IPointerDownHandler
+public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
-  private Image image;
-  private TextMeshProUGUI itemText;
+  [SerializeField] public Image image;
+  [SerializeField] public TextMeshProUGUI itemText;
   public InventoryItem item;
 
-  private void Awake()
-  {
-    image = GetComponent<Image>();
-    itemText = GetComponentInChildren<TextMeshProUGUI>();
-  }
+  protected UIManager uIManager;
 
+  protected virtual void Awake()
+  {
+    uIManager = GetComponentInParent<UIManager>();
+  }
 
   public void UpdateItemSlotUI(InventoryItem _item)
   {
@@ -47,6 +47,10 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler
 
   public virtual void OnPointerDown(PointerEventData eventData)
   {
+    if (item == null || item.itemData == null)
+    {
+      return;
+    }
     if (Input.GetKey(KeyCode.LeftControl))
     {
       Inventory.instance.RemoveItem(item.itemData);
@@ -59,5 +63,26 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler
       return;
     }
     Inventory.instance.EquipItem(item.itemData);
+  }
+
+  public virtual void OnPointerEnter(PointerEventData eventData)
+  {
+    if (item == null)
+    {
+      return;
+    }
+
+    uIManager.itemTooltip.ShowToolTip(item.itemData as EquipmentItemData);
+
+  }
+
+  public virtual void OnPointerExit(PointerEventData eventData)
+  {
+    if (item == null)
+    {
+      return;
+    }
+
+    uIManager.itemTooltip.HideToolTip();
   }
 }

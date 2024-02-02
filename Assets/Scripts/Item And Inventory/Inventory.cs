@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,9 @@ public class Inventory : MonoBehaviour
 
   [SerializeField] private Transform equippedItemSlotParent;
   private EquipItemSlotUI[] equippedItemSlots;
+
+  [SerializeField] private Transform statSlotParent;
+  private StatSlotUI[] statSlots;
 
   private void Awake()
   {
@@ -54,6 +58,8 @@ public class Inventory : MonoBehaviour
     stashItemSlots = stashItemSlotParent.GetComponentsInChildren<ItemSlotUI>();
 
     equippedItemSlots = equippedItemSlotParent.GetComponentsInChildren<EquipItemSlotUI>();
+
+    statSlots = statSlotParent.GetComponentsInChildren<StatSlotUI>();
 
     AddStartingItem();
   }
@@ -98,20 +104,45 @@ public class Inventory : MonoBehaviour
     {
       equippedItemSlots[i].UpdateItemSlotUI(equippedItems[i]);
     }
+
+    UpdateStatsUI();
+  }
+
+  private void UpdateStatsUI()
+  {
+    for (int i = 0; i < statSlots.Length; i++)
+    {
+      statSlots[i].UpdateStatValueUI();
+    }
   }
 
   public void EquipItem(ItemData itemData)
   {
 
-    EquipmentItemData data = itemData as EquipmentItemData;
+    EquipmentItemData newEquipItemData = itemData as EquipmentItemData;
 
-    UnEquipItem(data);
+    EquipmentItemData itemToRemove = null;
+    foreach (EquipmentItemData equipmentItemData in equippedItemDict.Keys)
+    {
+      if (equipmentItemData.equipmentType == newEquipItemData.equipmentType)
+      {
+        itemToRemove = equipmentItemData;
+        break;
+      }
+    }
+    if (itemToRemove != null)
+    {
+      UnEquipItem(itemToRemove);
+
+    }
+
+
     RemoveStashItem(itemData);
 
-    InventoryItem equipItem = new InventoryItem(data);
-    data.AddModifiers();
+    InventoryItem equipItem = new InventoryItem(newEquipItemData);
+    newEquipItemData.AddModifiers();
     equippedItems.Add(equipItem);
-    equippedItemDict.Add(data, equipItem);
+    equippedItemDict.Add(newEquipItemData, equipItem);
 
     UpdateItemSlotUI();
   }
@@ -217,7 +248,7 @@ public class Inventory : MonoBehaviour
     }
   }
 
-  public bool Cancraft(EquipmentItemData itemToCraft, List<InventoryItem> requiredMaterials)
+  public bool CanCraft(EquipmentItemData itemToCraft, List<InventoryItem> requiredMaterials)
   {
     List<InventoryItem> materialsToRemove = new List<InventoryItem>();
 

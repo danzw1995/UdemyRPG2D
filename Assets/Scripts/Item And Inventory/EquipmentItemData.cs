@@ -7,7 +7,8 @@ public enum EquipmentType
 {
   Weapon,
   Armor,
-  Amulet
+  Amulet,
+  Flask,
 }
 [CreateAssetMenu(fileName = "Equipment Item", menuName = "Data/Equipment")]
 public class EquipmentItemData : ItemData
@@ -40,6 +41,9 @@ public class EquipmentItemData : ItemData
   public List<InventoryItem> craftingMaterials;
 
   public ItemEffect[] itemEffects;
+
+
+  private int descriptionLength;
 
 
 
@@ -97,6 +101,73 @@ public class EquipmentItemData : ItemData
     foreach (ItemEffect itemEffect in itemEffects)
     {
       itemEffect.ExecuteEffect(target);
+    }
+  }
+  public override string GetDescription()
+  {
+    sb.Length = 0;
+    descriptionLength = 0;
+
+    AddItemDescription(strength, "Strength");
+    AddItemDescription(agility, "Agility");
+    AddItemDescription(intelligence, "Intelligence");
+    AddItemDescription(vitality, "Vitality");
+
+    AddItemDescription(damage, "Damage");
+    AddItemDescription(critChance, "Crit.Chance");
+    AddItemDescription(critPower, "Crit.Power");
+
+    AddItemDescription(health, "Health");
+    AddItemDescription(evasion, "Evasion");
+    AddItemDescription(armor, "Armor");
+    AddItemDescription(magicResistance, "Magic Resist.");
+
+    AddItemDescription(fireDamage, "Fire damage");
+    AddItemDescription(iceDamage, "Ice damage");
+    AddItemDescription(lightingDamage, "Lighting dmg. ");
+
+
+
+
+
+    // for (int i = 0; i < itemEffects.Length; i++)
+    // {
+    //   if (itemEffects[i].effectDescription.Length > 0)
+    //   {
+    //     sb.AppendLine();
+    //     sb.AppendLine("Unique: " + itemEffects[i].effectDescription);
+    //     descriptionLength++;
+    //   }
+    // }
+
+
+    // if (descriptionLength < 5)
+    // {
+    //   for (int i = 0; i < 5 - descriptionLength; i++)
+    //   {
+    //     sb.AppendLine();
+    //     sb.Append("");
+    //   }
+    // }
+
+
+
+    return sb.ToString();
+  }
+
+
+
+  private void AddItemDescription(int _value, string _name)
+  {
+    if (_value != 0)
+    {
+      if (sb.Length > 0)
+        sb.AppendLine();
+
+      if (_value > 0)
+        sb.Append("+ " + _value + " " + _name);
+
+      descriptionLength++;
     }
   }
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: 1704530735959705138, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
   dropChance: 34.4
   equipmentType: 0
-  strength: 0
+  strength: 20
   agility: 0
   intelligence: 0
   vitality: 0

@@ -18,7 +18,7 @@ MonoBehaviour:
   dropChance: 0
   equipmentType: 2
   strength: 0
-  agility: 0
+  agility: 10
   intelligence: 0
   vitality: 0
   damage: 0
